@@ -1,6 +1,6 @@
 # LookoutRackUtils
 
-TODO: Write a gem description
+Assorted Rack utils.
 
 ## Installation
 
@@ -15,10 +15,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install lookout_rack_utils
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## Contributing
 
