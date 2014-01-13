@@ -2,8 +2,6 @@ require 'i18n'
 
 module LookoutRackUtils
   module I18n
-    ::I18n.load_path = Dir["./config/locales/**/*.yml"]
-    ::I18n.default_locale = (defined?(configatron) && configatron && configatron.default_locale) || :en
     def t(*args)
       ::I18n.t(*args)
     end
