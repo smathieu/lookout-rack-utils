@@ -23,14 +23,14 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rack-test"
   spec.add_development_dependency "sinatra"
+  spec.add_development_dependency "timecop"
 
   spec.add_runtime_dependency "i18n"
 
   spec.add_dependency "rack"
   spec.add_dependency "rack-graphite"
   spec.add_dependency "rack-requestash"
-  spec.add_dependency "rack_csrf"
-  spec.add_dependency "rack-timeout"
-  spec.add_dependency "rack-ssl"
   spec.add_dependency "configatron"
+  spec.add_dependency "log4r"
+  spec.add_dependency "lookout-statsd", '>= 0.7.0'
 end

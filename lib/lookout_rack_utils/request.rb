@@ -1,3 +1,5 @@
+require 'lookout_rack_utils/log'
+
 module LookoutRackUtils
   module Request
     ILLEGAL_CHARS_REGEX = /[<>]/
@@ -25,7 +27,7 @@ module LookoutRackUtils
       begin
         return JSON.parse(body)
       rescue JSON::ParserError
-        warn "ParserError encountered parsing the request body (#{body})"
+        LookoutRackUtils::Log.instance.warn "ParserError encountered parsing the request body (#{body})"
         halt 400, "{}"
       end
     end
