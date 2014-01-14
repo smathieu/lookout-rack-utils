@@ -3,7 +3,6 @@ require 'log4r'
 require 'singleton'
 require 'rack/requestash/log4r'
 require 'time'
-require 'lookout/rack/utils/graphite'
 require 'configatron'
 
 module Lookout::Rack::Utils
@@ -65,7 +64,7 @@ module Lookout::Rack::Utils
     attr_reader :outputter
 
     def initialize
-      logger_name = configatron.project_name.to_s
+      logger_name = configatron.project_name.to_s.gsub(/\s*/, '_')
       if logger_name.nil? || logger_name.empty?
         logger_name = 'no_name_given'
       end
@@ -95,7 +94,9 @@ module Lookout::Rack::Utils
 
     [:debug, :info, :warn, :error, :level].each do |method|
       define_method(method) do |*args|
-        Lookout::Rack::Utils::Graphite.increment("log.#{method}") unless method == :level
+        if defined?(Lookout::Rack::Utils::Graphite)
+          Lookout::Rack::Utils::Graphite.increment("log.#{method}") unless method == :level
+        end
         @logger.send(method, *args)
       end
     end
