@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LookoutRackUtils::Subroute, :type => :route do
+describe Lookout::Rack::Utils::Subroute, :type => :route do
   describe '#subroute' do
     let(:route) { '/test_route' }
     let(:original) { get route }
@@ -9,7 +9,7 @@ describe LookoutRackUtils::Subroute, :type => :route do
 
     before :each do
       class RouteHelpers::Server
-        include LookoutRackUtils::Subroute
+        include Lookout::Rack::Utils::Subroute
         get '/subrouted' do
           subroute!('/test_route')
         end

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'lookout_rack_utils/graphite'
+require 'lookout/rack/utils/graphite'
 
-describe LookoutRackUtils::Graphite do
+describe Lookout::Rack::Utils::Graphite do
   subject(:graphite) { described_class }
 
   before :each do
@@ -18,6 +18,6 @@ describe LookoutRackUtils::Graphite do
 
   it 'should delegate to statsd' do
     Statsd.instance.should_receive(:increment).once.with('device.associated')
-    LookoutRackUtils::Graphite.increment('device.associated')
+    Lookout::Rack::Utils::Graphite.increment('device.associated')
   end
 end

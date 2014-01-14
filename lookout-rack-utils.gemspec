@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'lookout_rack_utils/version'
+require 'lookout/rack/utils/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "lookout_rack_utils"
-  spec.version       = LookoutRackUtils::VERSION
+  spec.name          = "lookout-rack-utils"
+  spec.version       = Lookout::Rack::Utils::VERSION
   spec.authors       = ["Ian Smith"]
   spec.email         = ["ian.smith@lookout.com"]
   spec.description   = %q{A collection of rack utils.}

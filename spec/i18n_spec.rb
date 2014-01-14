@@ -1,18 +1,18 @@
 require 'spec_helper'
-require 'lookout_rack_utils/i18n'
+require 'lookout/rack/utils/i18n'
 
 class TestHelper
   attr_accessor :locale
   attr_accessor :request
   attr_accessor :configatron
 
-  include LookoutRackUtils::I18n
+  include Lookout::Rack::Utils::I18n
 
   def initialize
   end
 end
 
-describe LookoutRackUtils do
+describe Lookout::Rack::Utils::I18n do
   let(:helper) { TestHelper.new }
 
   describe '.t' do

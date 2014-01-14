@@ -3,10 +3,10 @@ require 'log4r'
 require 'singleton'
 require 'rack/requestash/log4r'
 require 'time'
-require 'lookout_rack_utils/graphite'
+require 'lookout/rack/utils/graphite'
 require 'configatron'
 
-module LookoutRackUtils
+module Lookout::Rack::Utils
   # Logging.  Logs to log/<project_name>.log with the format:
   #
   #   [Log Level]: [Timestamp (ISO-8601)]: [File:linenum]: [Log Message]
@@ -95,7 +95,7 @@ module LookoutRackUtils
 
     [:debug, :info, :warn, :error, :level].each do |method|
       define_method(method) do |*args|
-        LookoutRackUtils::Graphite.increment("log.#{method}") unless method == :level
+        Lookout::Rack::Utils::Graphite.increment("log.#{method}") unless method == :level
         @logger.send(method, *args)
       end
     end

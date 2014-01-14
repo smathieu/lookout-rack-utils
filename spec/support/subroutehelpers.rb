@@ -1,5 +1,5 @@
-require 'lookout_rack_utils/subroute'
+require 'lookout/rack/utils/subroute'
 
 class SubrouteTestHelper
-  include LookoutRackUtils::Subroute
+  include Lookout::Rack::Utils::Subroute
 end

@@ -1,4 +1,4 @@
-# LookoutRackUtils
+# Lookout::Rack::Utils
 
 Assorted Rack utils.
 
@@ -6,7 +6,7 @@ Assorted Rack utils.
 
 Add this line to your application's Gemfile:
 
-    gem 'lookout_rack_utils'
+    gem 'lookout-rack-utils'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install lookout_rack_utils
+    $ gem install lookout-rack-utils
 
 ## Contributing
 

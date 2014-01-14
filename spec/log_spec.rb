@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'lookout_rack_utils/log'
+require 'lookout/rack/utils/log'
 require 'timecop'
 require 'configatron'
 
-describe LookoutRackUtils::Log do
+describe Lookout::Rack::Utils::Log do
   subject(:log) { described_class.instance }
 
   before :all do
@@ -13,34 +13,34 @@ describe LookoutRackUtils::Log do
 
   describe '.debug' do
     it 'should log a graphite stat' do
-      LookoutRackUtils::Graphite.should_receive(:increment).with('log.debug')
+      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.debug')
       log.debug 'foo'
     end
   end
 
   describe '.info' do
     it 'should log a graphite stat' do
-      LookoutRackUtils::Graphite.should_receive(:increment).with('log.info')
+      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.info')
       log.info 'foo'
     end
   end
 
   describe '.warn' do
     it 'should log a graphite stat' do
-      LookoutRackUtils::Graphite.should_receive(:increment).with('log.warn')
+      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.warn')
       log.warn 'foo'
     end
   end
 
   describe '.error' do
     it 'should log a graphite stat' do
-      LookoutRackUtils::Graphite.should_receive(:increment).with('log.error')
+      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.error')
       log.error 'foo'
     end
   end
 end
 
-describe LookoutRackUtils::Log::LookoutFormatter do
+describe Lookout::Rack::Utils::Log::LookoutFormatter do
   subject(:formatter) { described_class.new }
   let(:logger) do
     logger = double('Mock Logger')

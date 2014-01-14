@@ -1,4 +1,4 @@
-module LookoutRackUtils
+module Lookout::Rack::Utils
   module Subroute
     def subroute!(relative_path)
       subcode, subheaders, body = call(env.merge('PATH_INFO' => relative_path))

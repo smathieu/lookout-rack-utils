@@ -1,6 +1,6 @@
 require 'i18n'
 
-module LookoutRackUtils
+module Lookout::Rack::Utils
   module I18n
     def t(*args)
       ::I18n.t(*args)

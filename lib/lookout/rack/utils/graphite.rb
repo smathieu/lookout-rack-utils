@@ -2,13 +2,13 @@ require 'singleton'
 require 'configatron'
 require 'statsd'
 
-module LookoutRackUtils
+module Lookout::Rack::Utils
   # Statsd proxy.  This class initializes the Statsd client and
   # delegates all stats related calls to it.
   #
   # Use as:
-  #   LookoutRackUtils::Graphite.increment('device.associated')
-  #   LookoutRackUtils::Graphite.update_counter('device.associated', 5)
+  #   Lookout::Rack::Utils::Graphite.increment('device.associated')
+  #   Lookout::Rack::Utils::Graphite.update_counter('device.associated', 5)
   #
   class Graphite
     include Singleton
