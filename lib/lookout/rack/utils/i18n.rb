@@ -1,14 +1,16 @@
 require 'i18n'
+require 'configatron'
 
 module Lookout::Rack::Utils
   module I18n
+    ::I18n.default_locale = configatron.default_locale
+
     def t(*args)
       ::I18n.t(*args)
     end
 
     def current_locale
       return @locale unless @locale.nil?
-      return :en unless defined?(configatron) && configatron
 
       accepted_languages.each do |lang, quality|
         if configatron.locales.include?(lang)
@@ -22,8 +24,10 @@ module Lookout::Rack::Utils
       return @locale
     end
 
+    # We expect this to be called in a Rack request, but it will default to
+    # returning [] if not.
     def accepted_languages
-      accepted = request.env['HTTP_ACCEPT_LANGUAGE']
+      accepted = defined?(request.env) && request.env['HTTP_ACCEPT_LANGUAGE']
       return [] if accepted.nil?
 
       # parse Accept-Language

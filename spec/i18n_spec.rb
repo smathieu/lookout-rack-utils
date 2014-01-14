@@ -79,14 +79,6 @@ describe Lookout::Rack::Utils::I18n do
     end
     
     context 'if locale is nil' do
-      context 'if configatron is not defined' do
-        before :each do
-          helper.configatron = nil
-        end
-
-        it { should eql :en }
-      end
-
       context 'if configatron does not contain any of the accepted langs' do
         before :each do
           helper.configatron = Object.new
