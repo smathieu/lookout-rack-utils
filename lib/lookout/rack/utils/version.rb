@@ -1,7 +1,7 @@
 module Lookout
   module Rack
     module Utils
-      VERSION = "1.0.#{ENV['BUILD_NUMBER'] || 'dev'}"
+      VERSION = "1.1.0"
     end
   end
 end
