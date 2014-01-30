@@ -80,7 +80,7 @@ module Lookout::Rack::Utils
       end
 
       @outputter = FileOutputter.new("#{logger_name.to_s}fileoutput",
-                                     {:filename => configatron.logging.file,
+                                     {:filename => configatron.logging.file.to_s,
                                       :trunc => false})
       @logger.trace = true
       @outputter.formatter = LookoutFormatter
