@@ -12,6 +12,16 @@ describe Lookout::Rack::Utils::Log do
   end
 
   describe '.debug' do
+    context 'if debug is in configatron.statsd.exclude_levels' do
+      before { configatron.statsd.exclude_levels = [:debug] }
+      after { configatron.statsd.exclude_levels = [] }
+
+      it 'should not log a graphite stat' do
+        Lookout::Rack::Utils::Graphite.should_not_receive(:increment).with('log.debug')
+        log.debug 'foo'
+      end
+    end
+
     it 'should log a graphite stat' do
       Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.debug')
       log.debug 'foo'

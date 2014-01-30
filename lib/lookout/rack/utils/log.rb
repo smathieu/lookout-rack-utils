@@ -95,7 +95,9 @@ module Lookout::Rack::Utils
     [:debug, :info, :warn, :error, :level].each do |method|
       define_method(method) do |*args|
         if defined?(Lookout::Rack::Utils::Graphite)
-          Lookout::Rack::Utils::Graphite.increment("log.#{method}") unless method == :level
+          unless method == :level
+            Lookout::Rack::Utils::Graphite.increment("log.#{method}") unless (configatron.statsd.exclude_levels || []).include?(method)
+          end
         end
         @logger.send(method, *args)
       end
