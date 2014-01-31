@@ -3,6 +3,7 @@ require 'configatron'
 
 module Lookout::Rack::Utils
   module I18n
+    ::I18n.enforce_available_locales = false
     ::I18n.default_locale = configatron.default_locale
 
     def t(*args)
