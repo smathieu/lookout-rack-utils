@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rack"
   spec.add_dependency "rack-graphite"
   spec.add_dependency "rack-requestash"
-  spec.add_dependency "configatron"
+  spec.add_dependency "configatron", '~> 2.13'
   spec.add_dependency "log4r"
   spec.add_dependency "lookout-statsd", '>= 0.7.0'
 end
