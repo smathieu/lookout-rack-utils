@@ -9,6 +9,9 @@ module Lookout::Rack::Utils
   # Use as:
   #   Lookout::Rack::Utils::Graphite.increment('device.associated')
   #   Lookout::Rack::Utils::Graphite.update_counter('device.associated', 5)
+  #   Lookout::Rack::Utils::Graphite.timing('device.associated') do
+  #     # work
+  #   end
   #
   class Graphite
     include Singleton
@@ -25,7 +28,7 @@ module Lookout::Rack::Utils
     end
 
     def self.method_missing(meth, *args, &block)
-      self.instance && Statsd.instance.send(meth, *args)
+      self.instance && Statsd.instance.send(meth, *args, &block)
     end
 
     def self.respond_to?(method, include_private = false)

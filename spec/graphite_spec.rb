@@ -20,4 +20,20 @@ describe Lookout::Rack::Utils::Graphite do
     Statsd.instance.should_receive(:increment).once.with('device.associated')
     Lookout::Rack::Utils::Graphite.increment('device.associated')
   end
+
+  describe '#timing' do
+    it 'should delegate the block to statsd' do
+      expect { |block|
+        Statsd.instance.should_receive(:timing).once.with('device.became_aware', &block)
+        Lookout::Rack::Utils::Graphite.timing('device.became_aware', &block)
+      }.to yield_control
+    end
+
+    it 'should delegate the sample rate and block to statsd' do
+      expect { |block|
+        Statsd.instance.should_receive(:timing).once.with('device.became_aware', 0.05, &block)
+        Lookout::Rack::Utils::Graphite.timing('device.became_aware', 0.05, &block)
+      }.to yield_control
+    end
+  end
 end
