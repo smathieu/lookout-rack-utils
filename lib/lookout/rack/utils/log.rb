@@ -73,7 +73,7 @@ module Lookout::Rack::Utils
 
       if configatron.logging.enabled
         index = Log4r::LNAMES.index(configatron.logging.level)
-        # if loggel.level is not in LNAMES an exception will be thrown
+        # if logger.level is not in LNAMES an exception will be thrown
         @logger.level = index unless index.nil?
       else
         @logger.level = Log4r::OFF
@@ -92,7 +92,7 @@ module Lookout::Rack::Utils
     end
 
 
-    [:debug, :info, :warn, :error, :level].each do |method|
+    [:debug, :info, :warn, :error, :fatal, :level].each do |method|
       define_method(method) do |*args|
         if defined?(Lookout::Rack::Utils::Graphite)
           unless method == :level
@@ -100,6 +100,13 @@ module Lookout::Rack::Utils
           end
         end
         @logger.send(method, *args)
+      end
+
+      # Returns true iff the current severity level allows for
+      # the printing of level messages.
+      allow_logging = "#{method}?"
+      define_method(allow_logging) do |*args|
+        @logger.send(allow_logging, *args)
       end
     end
   end
