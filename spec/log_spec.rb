@@ -7,7 +7,7 @@ describe Lookout::Rack::Utils::Log do
   subject(:log) { described_class.instance }
 
   before :all do
-    configatron.logging.enabled = false
+    configatron.logging.enabled = true
     configatron.logging.file = "log"
   end
 
@@ -22,6 +22,13 @@ describe Lookout::Rack::Utils::Log do
       end
     end
 
+    it 'should log a graphite stat' do
+      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.debug')
+      log.debug 'foo'
+    end
+  end
+
+  describe '.debug' do
     it 'should log a graphite stat' do
       Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.debug')
       log.debug 'foo'
@@ -46,6 +53,43 @@ describe Lookout::Rack::Utils::Log do
     it 'should log a graphite stat' do
       Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.error')
       log.error 'foo'
+    end
+  end
+
+  describe '.fatal' do
+    it 'should log a graphite stat' do
+      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.fatal')
+      log.fatal 'foo'
+    end
+  end
+
+  describe '.debug?' do
+    it 'returns true when level is debug' do
+      expect(log.debug?).to eq(true)
+    end
+  end
+
+  describe '.info?' do
+    it 'returns true when level is info' do
+      expect(log.info?).to eq(true)
+    end
+  end
+
+  describe '.warn?' do
+    it 'returns true when level is warn' do
+      expect(log.warn?).to eq(true)
+    end
+  end
+
+  describe '.error?' do
+    it 'returns true when level is error' do
+      expect(log.error?).to eq(true)
+    end
+  end
+
+  describe '.fatal?' do
+    it 'returns true when level is fatal' do
+      expect(log.fatal?).to eq(true)
     end
   end
 end
