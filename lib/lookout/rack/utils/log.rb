@@ -104,7 +104,7 @@ module Lookout::Rack::Utils
 
       # Returns true iff the current severity level allows for
       # the printing of level messages.
-      allow_logging = "#{method}?"
+      allow_logging = "#{method}?".to_sym
       define_method(allow_logging) do |*args|
         @logger.send(allow_logging, *args)
       end
