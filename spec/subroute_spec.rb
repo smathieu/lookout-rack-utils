@@ -13,11 +13,28 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
         get '/subrouted' do
           subroute!('/test_route')
         end
+
+        get '/subrouted/:id' do |id|
+          subroute!('/test_route', :id => id)
+        end
       end
     end
 
-    it 'should return the status code and body of the route' do
-      expect([subrouted.status, subrouted.body]).to eql [original.status, original.body]
+    context "without params" do
+      it 'should return the status code and body of the route' do
+        expect([subrouted.status, subrouted.body]).to eql [original.status, original.body]
+      end
+    end
+
+    context "with params" do
+      let(:id) { 1 }
+      let(:body) { { :key => 'value', :id => "#{id}" }.to_json }
+
+      subject(:subrouted) { get "/subrouted/#{id}?key=value" }
+
+      it 'should return expected value' do
+        expect([subrouted.status, subrouted.body]).to eql [200, body]
+      end
     end
   end
 

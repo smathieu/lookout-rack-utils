@@ -1,6 +1,7 @@
 module Lookout::Rack::Utils
   module Subroute
-    def subroute!(relative_path)
+    def subroute!(relative_path, options={})
+      options.each { |k,v| request.send(request.request_method)[k] = v }
       subcode, subheaders, body = call(env.merge('PATH_INFO' => relative_path))
       return [subcode, body.first]
     end
