@@ -1,7 +1,10 @@
 module Lookout::Rack::Utils
   module Subroute
     def subroute!(relative_path, options={})
-      options.each { |k,v| request.send(request.request_method)[k] = v }
+      http_verb = request.request_method
+      # modify rack environment using Rack::Request- store passed in key/value
+      # pairs into hash associated with the parameters of the current http verb
+      options.each { |k,v| request.send(http_verb)[k] = v }
       subcode, subheaders, body = call(env.merge('PATH_INFO' => relative_path))
       return [subcode, body.first]
     end
