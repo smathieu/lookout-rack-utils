@@ -29,6 +29,10 @@ Or install it yourself as:
     s.port = 8125
   end
   ```
+
+  You will also need to prime the instance before using it by calling
+`Lookout::Rack::Utils::Graphite.instance`.
+
 ### Lookout::Rack::Utils::I18n
   You'll need configatron set up:
 
