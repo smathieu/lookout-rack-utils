@@ -17,6 +17,20 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
         get '/subrouted/:id' do |id|
           subroute!('/test_route', :id => id)
         end
+
+        delete '/test_delete' do
+          status 201
+          { :deleted => true }.to_json
+        end
+
+        get '/test_delete' do
+          subroute!('/test_delete', :request_method => 'DELETE')
+        end
+
+        get '/multiroute' do
+          subroute!('/test_delete', :request_method => 'DELETE')
+          subroute!('/test_route', :id => 1)
+        end
       end
     end
 
@@ -34,6 +48,33 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
 
       it 'should return expected value' do
         expect([subrouted.status, subrouted.body]).to eql [200, body]
+      end
+    end
+
+    context 'changing the http verb' do
+      context 'to a valid verb' do
+        subject(:subrouted) { get "/test_delete" }
+
+        its(:status) { should be 201 }
+
+        it 'should return expected output' do
+          expect(JSON.parse(subrouted.body)['deleted']).to be_true
+        end
+      end
+
+      context 'to an invalid verb' do
+        subject(:subrouted) { subroute!('/test_delete_invalid', :request_path => 'DELATE') }
+
+        it 'should throw an error' do
+          expect { subrouted }.to raise_error
+        end
+      end
+
+      context 'with multiple subroutes' do
+        subject(:subrouted) { get '/multiroute' }
+        it 'should return the status and body of the second subroute' do
+          expect([subrouted.status, subrouted.body]).to eql [200, { :id => 1 }.to_json]
+        end
       end
     end
   end
