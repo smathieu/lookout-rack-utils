@@ -94,6 +94,29 @@ path; the result can then be used, or just returned immediately to the browser.
   post '/api/public/v1/user' do
     subroute!("/api/public/v1/user/#{current_user.id}")
   end
+
+  # A route that requires an id param
+  get '/api/public/v1/problem' do
+    halt 404 unless params[:id]
+    ...
+  end
+
+  # Assuming the problem route above that takes an id parameter,
+  # pass information from one route to another in the correct form.
+  get '/api/public/v1/device/problem/:problem_id' do |problem_id|
+    subroute!('/api/public/v1/problem', :id => problem_id)
+  end
+
+  delete '/api/public/v1/user/:user_id' do |user_id|
+     ...
+  end
+
+  # Assuming the delete route above, change the http verb of the request to
+  # another (a contrived example)
+  get '/api/public/v1/user/:user_id' do |user_id|
+    subroute!("/api/public/v1/user/#{user_id}", :request_method => 'DELETE')
+  end
+
   ```
 
 ## Contributing
