@@ -6,6 +6,11 @@ module RouteHelpers
       status 200
       params.to_json
     end
+
+    put '/test_route' do
+      status 200
+      params.to_json
+    end
   end
 
   def app

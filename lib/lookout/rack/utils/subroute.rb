@@ -15,7 +15,7 @@ module Lookout::Rack::Utils
 
       # modify rack environment using Rack::Request- store passed in key/value
       # pairs into hash associated with the parameters of the current http verb
-      options.each { |k,v| subserver.request.send(http_verb)[k] = v }
+      options.each { |k,v| subserver.request.update_param(k, v) }
       # Invoking Sinatra::Base#call! on our duplicated app instance. Sinatra's
       # call will dup the app instance and then call!, so skip Sinatra's dup
       # since we've done that here.

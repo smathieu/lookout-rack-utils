@@ -18,6 +18,10 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
           subroute!('/test_route', :id => id)
         end
 
+        put '/subrouted/request_params' do
+          subroute!('/test_route', 'key' => 'value')
+        end
+
         delete '/test_delete' do
           status 201
           { :deleted => true }.to_json
@@ -44,10 +48,21 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
       let(:id) { 1 }
       let(:body) { { :key => 'value', :id => "#{id}" }.to_json }
 
-      subject(:subrouted) { get "/subrouted/#{id}?key=value" }
 
-      it 'should return expected value' do
-        expect([subrouted.status, subrouted.body]).to eql [200, body]
+      context 'a get route' do
+        subject(:subrouted) { get "/subrouted/#{id}?key=value" }
+
+        it 'should return expected value' do
+          expect([subrouted.status, subrouted.body]).to eql [200, body]
+        end
+      end
+
+      context 'params added by subrouter, non-GET method' do
+        subject(:subrouted) { put '/subrouted/request_params' }
+
+        it 'should return expected value' do
+          expect([subrouted.status, subrouted.body]).to eql [200, { 'key' => 'value' }.to_json]
+        end
       end
     end
 
