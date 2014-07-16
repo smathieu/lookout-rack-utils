@@ -12,6 +12,8 @@ if RUBY_PLATFORM == 'java'
   # of Configatron under JRuby
   module Psych
     module Yecht
+      # Silence warnings about redefining constant
+      ::Psych::Yecht.send(:remove_const, :MergeKey) if Yecht.const_defined?(:MergeKey)
       MergeKey = nil
     end
   end
