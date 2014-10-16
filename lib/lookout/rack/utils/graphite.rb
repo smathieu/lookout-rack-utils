@@ -22,17 +22,17 @@ module Lookout::Rack::Utils
         prefix = "dev.#{ENV['USER']}.#{prefix}"
       end
 
-      Statsd.create_instance(:host => configatron.statsd.host,
-                             :port => configatron.statsd.port,
-                             :prefix => prefix)
+      ::Statsd.create_instance(:host => configatron.statsd.host,
+                               :port => configatron.statsd.port,
+                               :prefix => prefix)
     end
 
     def self.method_missing(meth, *args, &block)
-      self.instance && Statsd.instance.send(meth, *args, &block)
+      self.instance && ::Statsd.instance.send(meth, *args, &block)
     end
 
     def self.respond_to?(method, include_private = false)
-      super || (self.instance && Statsd.instance.respond_to?(method, include_private))
+      super || (self.instance && ::Statsd.instance.respond_to?(method, include_private))
     end
   end
 end
