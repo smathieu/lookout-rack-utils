@@ -35,6 +35,17 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
           subroute!('/test_delete', :request_method => 'DELETE')
           subroute!('/test_route', :id => 1)
         end
+
+        get '/header_change' do
+          headers 'Content-Disposition' => "attachment;filename=file.txt",
+                  'Content-Type' => 'application/octet-stream'
+          status 201
+        end
+
+        get '/change_header' do
+          subroute!('/header_change')
+        end
+
       end
     end
 
@@ -90,6 +101,17 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
         it 'should return the status and body of the second subroute' do
           expect([subrouted.status, subrouted.body]).to eql [200, { :id => 1 }.to_json]
         end
+      end
+    end
+
+    context 'when the subroute changes the headers' do
+      subject(:subrouted) { get "/change_header" }
+
+      its(:status) { should be 201 }
+
+      it 'should return the headers set by the subroute' do
+        expect(subrouted.headers['Content-Disposition']).to eql("attachment;filename=file.txt")
+        expect(subrouted.headers['Content-Type']).to eql('application/octet-stream')
       end
     end
   end
