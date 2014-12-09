@@ -20,7 +20,7 @@ module Lookout::Rack::Utils
       # call will dup the app instance and then call!, so skip Sinatra's dup
       # since we've done that here.
       subcode, subheaders, body = subserver.call!(env.merge(request_opts))
-      return [subcode, body.first]
+      return [subcode, subheaders, body.first]
     end
 
     # Returns true if the status given is 20x
