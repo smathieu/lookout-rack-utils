@@ -76,9 +76,9 @@ path; the result can then be used, or just returned immediately to the browser.
   include Lookout::Rack::Utils::Subroute
 
   # Return the status of a request to /api/public/v1/original_route and throw
-  # away the response body
+  # away the headers and response body
   get '/status' do
-    sub_status, sub_data = subroute!('/api/public/v1/original_route')
+    sub_status, sub_headers, sub_data = subroute!('/api/public/v1/original_route')
 
     halt sub_status
   end
