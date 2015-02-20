@@ -88,13 +88,13 @@ module Lookout::Rack::Utils
 
 
     [:debug, :info, :warn, :error, :fatal, :level].each do |method|
-      define_method(method) do |*args|
+      define_method(method) do |*args, &block|
         if defined?(Lookout::Rack::Utils::Graphite)
           unless method == :level
             Lookout::Rack::Utils::Graphite.increment("log.#{method}") unless (configatron.statsd.exclude_levels || []).include?(method)
           end
         end
-        @logger.send(method, *args)
+        @logger.send(method, *args, &block)
       end
 
       # Returns true iff the current severity level allows for
