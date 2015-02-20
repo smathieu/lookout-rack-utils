@@ -5,6 +5,7 @@ require 'configatron'
 
 describe Lookout::Rack::Utils::Log do
   subject(:log) { described_class.instance }
+  subject(:log_message) { 'foo' }
 
   before :all do
     configatron.logging.enabled = true
@@ -18,78 +19,50 @@ describe Lookout::Rack::Utils::Log do
 
       it 'should not log a graphite stat' do
         Lookout::Rack::Utils::Graphite.should_not_receive(:increment).with('log.debug')
-        log.debug 'foo'
+        log.debug log_message
       end
     end
 
     it 'should log a graphite stat' do
       Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.debug')
-      log.debug 'foo'
+      log.debug log_message
     end
   end
 
-  describe '.debug' do
-    it 'should log a graphite stat' do
-      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.debug')
-      log.debug 'foo'
+  [:debug, :info, :warn, :error, :fatal].each do |method|
+    describe ".#{method}" do
+      it 'should log a graphite stat' do
+        Lookout::Rack::Utils::Graphite.should_receive(:increment).with("log.#{method}")
+
+        log.instance_variable_get(:@logger).should_receive(method).with(log_message).and_call_original
+
+        processed = false
+        b = Proc.new { processed = true }
+
+        log.send(method, log_message, &b)
+        expect(processed).to be(true)
+      end
+
+      it 'should invoke the internal logger object with a given block' do
+        log.instance_variable_get(:@logger).should_receive(method).with(log_message).and_call_original
+        processed = false
+        b = Proc.new { processed = true }
+        log.send(method, log_message, &b)
+        expect(processed).to be(true)
+      end
+
+      it 'should invoke the internal logger object w/o a given block' do
+        log.instance_variable_get(:@logger).should_receive(method).with(log_message).and_call_original
+        log.send(method, log_message)
+      end
     end
   end
 
-  describe '.info' do
-    it 'should log a graphite stat' do
-      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.info')
-      log.info 'foo'
-    end
-  end
-
-  describe '.warn' do
-    it 'should log a graphite stat' do
-      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.warn')
-      log.warn 'foo'
-    end
-  end
-
-  describe '.error' do
-    it 'should log a graphite stat' do
-      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.error')
-      log.error 'foo'
-    end
-  end
-
-  describe '.fatal' do
-    it 'should log a graphite stat' do
-      Lookout::Rack::Utils::Graphite.should_receive(:increment).with('log.fatal')
-      log.fatal 'foo'
-    end
-  end
-
-  describe '.debug?' do
-    it 'returns true when level is debug' do
-      expect(log.debug?).to eq(true)
-    end
-  end
-
-  describe '.info?' do
-    it 'returns true when level is info' do
-      expect(log.info?).to eq(true)
-    end
-  end
-
-  describe '.warn?' do
-    it 'returns true when level is warn' do
-      expect(log.warn?).to eq(true)
-    end
-  end
-
-  describe '.error?' do
-    it 'returns true when level is error' do
-      expect(log.error?).to eq(true)
-    end
-  end
-
-  describe '.fatal?' do
-    it 'returns true when level is fatal' do
-      expect(log.fatal?).to eq(true)
+  [:debug?, :info?, :warn?, :error?, :fatal?].each do |method|
+    describe ".#{method}" do
+      it 'returns true when level is debug' do
+        expect(log.send(method)).to eq(true)
+      end
     end
   end
 end
@@ -106,8 +79,8 @@ describe Lookout::Rack::Utils::Log::LookoutFormatter do
   let(:basedir) { "/home/rspec/#{project_name}" }
   let(:tracer) do
     [
-      "#{basedir}/log.rb:63:in `warn'",
-      "#{basedir}/spec/log_spec.rb:9:in `block (2 levels) in <top (required)>'"
+        "#{basedir}/log.rb:63:in `warn'",
+        "#{basedir}/spec/log_spec.rb:9:in `block (2 levels) in <top (required)>'"
     ]
   end
 
