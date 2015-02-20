@@ -3,6 +3,7 @@ $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib/')
 require 'lookout/rack/utils'
 
 require 'rspec'
+require 'rspec/its'
 
 require 'rack/test'
 

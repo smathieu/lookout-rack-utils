@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'log4r'
 require 'singleton'
-require 'rack/requestash/log4r'
 require 'time'
 require 'configatron'
 
@@ -84,10 +83,6 @@ module Lookout::Rack::Utils
                                       :trunc => false})
       @logger.trace = true
       @outputter.formatter = LookoutFormatter
-
-      if ENV['RACK_ENV'] == 'production'
-        @outputter.formatter = Rack::Requestash::Log4r::Formatter
-      end
       @logger.outputters = @outputter
     end
 

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'json'
 
 describe Lookout::Rack::Utils::Subroute, :type => :route do
   describe '#subroute' do
@@ -84,7 +85,7 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
         its(:status) { should be 201 }
 
         it 'should return expected output' do
-          expect(JSON.parse(subrouted.body)['deleted']).to be_true
+          expect(JSON.parse(subrouted.body)['deleted']).to be true
         end
       end
 
@@ -120,17 +121,17 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
     subject { SubrouteTestHelper.new.succeeded?(status) }
     context 'with status 200' do
       let(:status) { 200 }
-      it { should be_true }
+      it { should be true }
     end
 
     context 'with status 299' do
       let(:status) { 299 }
-      it { should be_true }
+      it { should be true }
     end
 
     context 'with a non-20x status' do
       let(:status) { 300 }
-      it { should be_false }
+      it { should be false }
     end
   end
 
@@ -138,17 +139,17 @@ describe Lookout::Rack::Utils::Subroute, :type => :route do
     subject { SubrouteTestHelper.new.failed?(status) }
     context 'with status 200' do
       let(:status) { 200 }
-      it { should be_false }
+      it { should be false }
     end
 
     context 'with status 299' do
       let(:status) { 299 }
-      it { should be_false }
+      it { should be false }
     end
 
     context 'with a non-20x status' do
       let(:status) { 300 }
-      it { should be_true }
+      it { should be true }
     end
   end
 end
