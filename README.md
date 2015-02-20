@@ -1,5 +1,8 @@
 # Lookout::Rack::Utils
 
+[![Build
+Status](https://travis-ci.org/lookout/lookout-rack-utils.svg)](https://travis-ci.org/lookout/lookout-rack-utils)
+
 Assorted Rack utils.
 
 ## Installation
