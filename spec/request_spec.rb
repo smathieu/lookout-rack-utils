@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'lib/lookout/rack/utils/request'
+require 'lookout/rack/utils/request'
 require 'zlib'
 
 class TestHelper
