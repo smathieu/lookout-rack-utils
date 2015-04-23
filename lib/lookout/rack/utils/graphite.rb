@@ -2,6 +2,8 @@ require 'singleton'
 require 'configatron'
 require 'statsd'
 
+require 'lookout/rack/utils'
+
 module Lookout::Rack::Utils
   # Statsd proxy.  This class initializes the Statsd client and
   # delegates all stats related calls to it.
