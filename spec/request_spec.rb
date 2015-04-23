@@ -38,6 +38,7 @@ describe Lookout::Rack::Utils::Request do
     end
 
     it 'should halt and throw and 400 when we have badly encoded data' do
+      allow_any_instance_of(Lookout::Rack::Utils::Log).to receive(:warn)
       helper.request.body.stub(:read).and_return(sample_data)
       expect(helper).to receive(:halt).with(400, "{}")
       helper.gunzipped_body
