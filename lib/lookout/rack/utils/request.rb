@@ -3,8 +3,8 @@ require 'zlib'
 module Lookout::Rack::Utils
   module Request
     ILLEGAL_CHARS_REGEX = /[<>]/
-    HTTP_CONTENT_ENCODING_KEY = "HTTP_CONTENT_ENCODING"
-    CONTENT_ENCODING_GZIPPED = "gzip"
+    HTTP_CONTENT_ENCODING_KEY = "HTTP_CONTENT_ENCODING".freeze
+    CONTENT_ENCODING_GZIPPED = "gzip".freeze
 
     # Return the raw, unprocessed request body
     #
@@ -15,7 +15,7 @@ module Lookout::Rack::Utils
       return request.body.read
     end
 
-    # Return the gunzipped but otherwise raw, unprocessed request body
+    # Return the body, which is gunzipped only if the appropriate header is set on the request
     #
     # Will halt and create a a 400 status code if there is something wrong with
     # the body
@@ -41,7 +41,6 @@ module Lookout::Rack::Utils
     #
     # Will halt and create a a 400 status code if there is something wrong with
     # the body
-    #s
     def body_as_json
       body = raw_body
 
