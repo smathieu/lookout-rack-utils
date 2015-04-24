@@ -5,7 +5,7 @@ require 'lookout/rack/utils/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "lookout-rack-utils"
-  spec.version       = Lookout::Rack::Utils::VERSION
+  spec.version       = [Lookout::Rack::Utils::VERSION, ENV['TRAVIS_BUILD_NUMBER'] || 'dev'].join('.')
   spec.authors       = ["Ian Smith"]
   spec.email         = ["ian.smith@lookout.com"]
   spec.description   = %q{A collection of rack utils.}

@@ -1,5 +1,9 @@
 language: ruby
 rvm:
-  - jruby
-    ruby-2.1.2
-script: bundle exec rake
+- jruby
+- 2.1
+- 1.9.3
+deploy:
+  provider: rubygems
+  api_key:
+    secure: NFwSWoM9SqI1oshwmmf/4HB+0+tKL/r4mS4NIhfLqC55V7IhJ97wLqKj0LiyGFtgEpW+mMEv246mO8YH9KggQzHQbqDjUHjyU3CwBaHbV3xRuXwCfPGs6hw1xFg80bTKmi1S0yRy2VzoJml4UYxr8SpYVoCbauAMdXSJGRAu7p8=
