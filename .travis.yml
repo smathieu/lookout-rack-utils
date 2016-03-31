@@ -7,3 +7,7 @@ deploy:
   provider: rubygems
   api_key:
     secure: NFwSWoM9SqI1oshwmmf/4HB+0+tKL/r4mS4NIhfLqC55V7IhJ97wLqKj0LiyGFtgEpW+mMEv246mO8YH9KggQzHQbqDjUHjyU3CwBaHbV3xRuXwCfPGs6hw1xFg80bTKmi1S0yRy2VzoJml4UYxr8SpYVoCbauAMdXSJGRAu7p8=
+
+install:
+ - "gem install bundler"
+ - "bundle install --jobs=3 --retry=3"
