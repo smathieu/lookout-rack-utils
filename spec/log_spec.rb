@@ -81,8 +81,8 @@ describe Lookout::Rack::Utils::Log do
 
     context "when logging to STDOUT" do
       let(:filename) { "STDOUT" }
-      it "should use Outputter.stdout" do
-        expect(subject).to eq Log4r::Outputter.stdout
+      it "should use a StdoutOutputter" do
+        expect(subject).to be_a(Log4r::StdoutOutputter)
       end
     end
   end

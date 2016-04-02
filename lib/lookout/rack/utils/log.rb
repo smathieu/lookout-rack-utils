@@ -106,9 +106,9 @@ module Lookout::Rack::Utils
     # Build and return the appropriate Outputter
     def build_outputter(logger_name)
       if configatron.logging.file =~ /^stdout$/i
-        Outputter.stdout
+        StdoutOutputter.new("#{logger_name}stdout")
       else
-        FileOutputter.new("#{logger_name.to_s}fileoutput",
+        FileOutputter.new("#{logger_name}fileoutput",
                           {:filename => configatron.logging.file,
                            :trunc => false})
       end
