@@ -78,9 +78,7 @@ module Lookout::Rack::Utils
         @logger.level = Log4r::OFF
       end
 
-      @outputter = FileOutputter.new("#{logger_name.to_s}fileoutput",
-                                     {:filename => configatron.logging.file,
-                                      :trunc => false})
+      @outputter = build_outputter(logger_name)
       @logger.trace = true
       @outputter.formatter = LookoutFormatter
       @logger.outputters = @outputter
@@ -104,5 +102,17 @@ module Lookout::Rack::Utils
         @logger.send(allow_logging, *args)
       end
     end
+
+    # Build and return the appropriate Outputter
+    def build_outputter(logger_name)
+      if configatron.logging.file =~ /^stdout$/i
+        StdoutOutputter.new("#{logger_name}stdout")
+      else
+        FileOutputter.new("#{logger_name}fileoutput",
+                          {:filename => configatron.logging.file,
+                           :trunc => false})
+      end
+    end
+    private :build_outputter
   end
 end

@@ -6,10 +6,11 @@ require 'configatron'
 describe Lookout::Rack::Utils::Log do
   subject(:log) { described_class.instance }
   subject(:log_message) { 'foo' }
+  let(:filename) { "log" }
 
-  before :all do
+  before :each do
     configatron.logging.enabled = true
-    configatron.logging.file = "log"
+    allow(configatron.logging).to receive(:file).and_return(filename)
   end
 
   describe '.debug' do
@@ -62,6 +63,26 @@ describe Lookout::Rack::Utils::Log do
     describe ".#{method}" do
       it 'returns true when level is debug' do
         expect(log.send(method)).to eq(true)
+      end
+    end
+  end
+
+  # Private method but tested since we can't otherwise test configuration of the singleton
+  describe "#build_outputter" do
+    let(:logger_name) { "logger" }
+    subject(:build_outputter) { log.send(:build_outputter, logger_name)}
+
+    context "when logging to a file" do
+      let(:filename) { "foo.log" }
+      it "should use a FileOutputter" do
+        expect(subject).to be_a(Log4r::FileOutputter)
+      end
+    end
+
+    context "when logging to STDOUT" do
+      let(:filename) { "STDOUT" }
+      it "should use a StdoutOutputter" do
+        expect(subject).to be_a(Log4r::StdoutOutputter)
       end
     end
   end
