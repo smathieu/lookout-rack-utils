@@ -158,4 +158,31 @@ describe Lookout::Rack::Utils::Log::LookoutFormatter do
     end
 
   end
+
+  describe "#common_basedir" do
+    subject(:common_basedir) { formatter.common_basedir(path) }
+
+    context "with no common path" do
+      let(:path) { "/impossible/path" }
+
+      it "should return basedir" do
+        expect(subject).to eq basedir
+      end
+    end
+
+    context "with a partially shared path" do
+      let(:path) { File.expand_path(File.join(basedir, "..", "tmp", "foo.rb")) }
+
+      it "should return shared path" do
+        expect(subject).to eq File.expand_path(File.join(basedir, ".."))
+      end
+    end
+
+    context "with a fully shared path" do
+      let(:path) { File.expand_path(File.join(basedir, "tmp.rb")) }
+      it "should return full path" do
+        expect(subject).to eq basedir
+      end
+    end
+  end
 end

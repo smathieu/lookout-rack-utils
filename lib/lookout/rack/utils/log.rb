@@ -33,11 +33,36 @@ module Lookout::Rack::Utils
         @basedir ||= File.expand_path(File.join(File.dirname(__FILE__), ".."))
       end
 
+      # Return the common base directory between this project and the
+      # given trace. If no common base directory is found, return
+      # basedir.
+      #
+      # This memoizes the result, which can be bad if the first log
+      # comes from an unusual place. However, in all current uses this
+      # is running from an unpacked jar/war and its vastly faster to
+      # memoize the result.
+      #
+      # @param [String] tracer A line from the LogEvent#tracer Array
+      # @return [String] Common base directory with the trace
+      def common_basedir(tracer)
+        return @common_basedir if @common_basedir
+
+        basedir_pieces = basedir.split(File::SEPARATOR)
+        trace_pieces = tracer.split(File::SEPARATOR)
+        i = 0
+        while basedir_pieces[i] == trace_pieces[i]
+          i += 1
+        end
+        # If there were no common directories (besides /), return our basedir
+        @common_basedir = (i <= 1) ? basedir : basedir_pieces[0...i].join(File::SEPARATOR)
+      end
+
       # Return a trimmed version of the filename from where a LogEvent occurred
       # @param [String] tracer A line from the LogEvent#tracer Array
       # @return [String] Trimmed and parsed version of the file ane line number
       def event_filename(tracer)
-        parts = tracer.match(/#{basedir}\/(.*:[0-9]+).*:/)
+        base = common_basedir(tracer)
+        parts = tracer.match(/#{base}\/(.*:[0-9]+).*:/)
 
         # If we get no matches back, we're probably in a jar file in which case
         # the format of the tracer is going to be abbreviated
