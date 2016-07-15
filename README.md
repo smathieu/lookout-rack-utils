@@ -33,8 +33,14 @@ Or install it yourself as:
   end
   ```
 
-  You will also need to prime the instance before using it by calling
+You will also need to prime the instance before using it by calling
 `Lookout::Rack::Utils::Graphite.instance`.
+
+If you want to use a different Statsd implementation than
+lookout-statsd, you can. Call +Lookout::Statsd.set_instance+ BEFORE
+referencing the +Lookout::Rack::Utils::Graphite.instance+ in order to
+use a different Statsd implementation. You'll need to configure the
+Statsd object manually in that case.
 
 ### Lookout::Rack::Utils::I18n
   You'll need configatron set up:
