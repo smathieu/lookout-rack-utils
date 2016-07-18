@@ -15,7 +15,8 @@ module Lookout::Rack::Utils
   # Use as:
   #   Lookout::Rack::Utils::Graphite.increment('device.associated')
   #   Lookout::Rack::Utils::Graphite.update_counter('device.associated', 5)
-  #   Lookout::Rack::Utils::Graphite.timing('device.associated') do
+  #   Lookout::Rack::Utils::Graphite.timing('device.associated', 3305)
+  #   Lookout::Rack::Utils::Graphite.time('device.associated') do
   #     # work
   #   end
   #
