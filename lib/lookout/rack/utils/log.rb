@@ -79,7 +79,8 @@ module Lookout::Rack::Utils
       # @return [String] Formatted log message
       def format(event)
         filename = event_filename(event.tracer[1])
-        time = Time.now.utc.iso8601
+        # CCYY-MM-DDThh:mm:ss.sssTZD
+        time = Time.now.utc.iso8601 3
         return "#{Log4r::LNAMES[event.level]}: #{time}: #{filename}: #{event.data}\n"
       end
     end
