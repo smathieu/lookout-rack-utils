@@ -146,7 +146,8 @@ describe Lookout::Rack::Utils::Log::LookoutFormatter do
       # Level 3 is the Log4r "warn" level
       let(:level) { 3 }
       let(:data) { 'rspec' }
-      let(:timestamp) { Time.now.utc.iso8601 }
+      # use CCYY-MM-DDThh:mm:ss.sssTZD timestamp
+      let(:timestamp) { Time.now.utc.iso8601 3 }
 
       let(:event) do
         event = Log4r::LogEvent.new(level, logger, tracer, data)
