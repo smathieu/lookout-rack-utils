@@ -63,12 +63,13 @@ app:
 present, it will increment those stats whenever a log is written.
 
   ```ruby
-  configatron.project_name = 'My project name'
   configatron.logging do |l|
     l.enabled = true
     l.level = 'WARN'
     l.file = 'log/some_file.log'
   end
+
+  Lookout::Rack::Utils::Log.instance.debug "My Message"
   ```
 
 ### Lookout::Rack::Utils::Request

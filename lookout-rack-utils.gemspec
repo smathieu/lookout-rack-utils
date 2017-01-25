@@ -31,6 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rack", '~> 1.5'
   spec.add_dependency "rack-graphite", '~> 1.3'
   spec.add_dependency "configatron", '~> 2.13'
-  spec.add_dependency "log4r"
   spec.add_dependency "lookout-statsd", '~> 3.1'
 end
