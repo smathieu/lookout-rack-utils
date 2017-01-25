@@ -7,6 +7,9 @@ module Lookout::Rack::Utils
   class Log
     include Singleton
 
+    # Logger is overridable
+    attr_accessor :logger
+
     def initialize
       file = configatron.logging.file
 

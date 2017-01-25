@@ -72,6 +72,12 @@ present, it will increment those stats whenever a log is written.
   Lookout::Rack::Utils::Log.instance.debug "My Message"
   ```
 
+You can override the logger with any standard logger:
+
+  ```ruby
+    Lookout::Rack::Utils::Log.instance.logger = Logger.new(STDERR)
+  ```
+
 ### Lookout::Rack::Utils::Request
   `Lookout::Rack::Utils::Request` will log errors using
 `Lookout::Rack::Utils::Log` if it has been required elsewhere.
